@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pull Request Workflow</title>
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+<style>
+:root{--bg:#0f172a;--panel:#111827;--text:#e5e7eb;--muted:#9ca3af;--accent:#22d3ee}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#020617;color:var(--text);display:flex;min-height:100vh}
+aside{width:260px;background:var(--panel);padding:20px;position:sticky;top:0;height:100vh;overflow:auto}
+main{flex:1;padding:28px;max-width:1000px}h1,h2,h3{color:#f8fafc}a{color:var(--accent);text-decoration:none}
+.nav a{display:block;padding:8px 0;border-bottom:1px solid #1f2937}.card{background:var(--bg);border:1px solid #1f2937;border-radius:10px;padding:16px;margin:14px 0}
+pre{background:#0b1020;border:1px solid #1f2937;padding:14px;border-radius:10px;overflow:auto;position:relative}
+.copy-btn{position:absolute;right:8px;top:8px;border:0;background:#155e75;color:white;padding:6px 10px;border-radius:7px;cursor:pointer}
+footer{margin-top:26px;padding:16px;border-top:1px solid #334155;color:var(--muted)}
+@media(max-width:900px){body{flex-direction:column}aside{width:100%;height:auto;position:relative}}
+</style>
+
+</head><body>
+<aside><h2>Guided Tutorial Series</h2><p>ASP.NET Core 8 + React (Vite)</p><nav class="nav"><a href="../Lesson1_Backend_ASPNETCore/01_Enums_Extensions.html">01_Enums_Extensions.html</a><a href="../Lesson1_Backend_ASPNETCore/02_MVC_WebAPI.html">02_MVC_WebAPI.html</a><a href="../Lesson1_Backend_ASPNETCore/03_DependencyInjection.html">03_DependencyInjection.html</a><a href="../Lesson1_Backend_ASPNETCore/04_ViewComponents_Routes_TagHelpers.html">04_ViewComponents_Routes_TagHelpers.html</a><a href="../Lesson1_Backend_ASPNETCore/05_EFCore.html">05_EFCore.html</a><a href="../Lesson1_Backend_ASPNETCore/06_JWT_Login.html">06_JWT_Login.html</a><a href="../Lesson1_Backend_ASPNETCore/07_Swagger.html">07_Swagger.html</a><a href="../Lesson1_Backend_ASPNETCore/08_RateLimiting.html">08_RateLimiting.html</a><a href="../Lesson1_Backend_ASPNETCore/09_CORS.html">09_CORS.html</a><a href="../Lesson2_Git_Workflow/01_Git_Basics.html">01_Git_Basics.html</a><a href="../Lesson2_Git_Workflow/02_Branching.html">02_Branching.html</a><a href="../Lesson2_Git_Workflow/03_PullRequest.html">03_PullRequest.html</a><a href="../Lesson2_Git_Workflow/04_Fetch_Pull.html">04_Fetch_Pull.html</a><a href="../Lesson3_React_Client/01_Node_Vite_Setup.html">01_Node_Vite_Setup.html</a><a href="../Lesson3_React_Client/02_React_Basics.html">02_React_Basics.html</a><a href="../Lesson3_React_Client/03_Calling_WebAPI.html">03_Calling_WebAPI.html</a><a href="../Lesson3_React_Client/04_JWT_Client_Login.html">04_JWT_Client_Login.html</a><a href="../Lesson4_Deployment/01_Publishing_Overview.html">01_Publishing_Overview.html</a><a href="../Lesson4_Deployment/02_Publish_IIS.html">02_Publish_IIS.html</a><a href="../Lesson4_Deployment/03_Publish_Azure.html">03_Publish_Azure.html</a></nav></aside>
+<main><h1>Pull Request Workflow</h1><div class="card">
+<h2>Lesson Objective</h2><p>Open clear pull requests with reviewable changes.</p>
+<section><h3>Step-by-step</h3><ol><li>Push branch to origin.</li><li>Create PR with title, scope, testing notes.</li><li>Request reviewer and address comments.</li></ol>
+<pre><code class="language-bash">git push -u origin feature/jwt-auth
+# then open GitHub and create PR</code></pre></section>
+</div>
+<footer><h3>Checkpoint: Save your progress</h3><pre><code class="language-bash">git add .
+git commit -m "Finished 03 PullRequest"
+git push origin main</code></pre></footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+<script>
+document.querySelectorAll('pre').forEach(pre=>{const b=document.createElement('button');b.textContent='Copy';b.className='copy-btn';b.onclick=()=>{navigator.clipboard.writeText(pre.innerText.replace('Copy','').trim());b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',1000)};pre.appendChild(b);});
+</script>
+</body></html>
