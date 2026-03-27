@@ -1,0 +1,55 @@
+@model IEnumerable<TodoList.Web.Models.TodoItemViewModel>
+
+@{
+    ViewData["Title"] = "Todos";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <div>
+        <h1 class="mb-1">Todos</h1>
+        <p class="text-muted mb-0">Filter: <strong>@ViewBag.Filter</strong></p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">Add Todo</a>
+</div>
+
+@if (TempData["Message"] is string message)
+{
+    <div class="alert alert-success">@message</div>
+}
+
+<div class="d-flex gap-2 flex-wrap mb-3">
+    <a asp-controller="Todos" asp-action="Index" asp-route-filter="all" class="btn btn-outline-secondary">All</a>
+    <a asp-controller="Todos" asp-action="Index" asp-route-filter="active" class="btn btn-outline-secondary">Active</a>
+    <a asp-controller="Todos" asp-action="Index" asp-route-filter="done" class="btn btn-outline-secondary">Done</a>
+    <a asp-controller="Todos" asp-action="Index" asp-route-filter="overdue" class="btn btn-outline-secondary">Overdue</a>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Assigned To</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Title</td>
+            <td>@item.AssignedTo</td>
+            <td>@item.DueDate</td>
+            <td>@(item.IsDone ? "Done" : "Active")</td>
+            <td>
+                <a asp-controller="Todos" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                    Details
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

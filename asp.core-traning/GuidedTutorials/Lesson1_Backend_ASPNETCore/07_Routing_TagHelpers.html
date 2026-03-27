@@ -1,0 +1,95 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Routing and Tag Helpers</title>
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<style>
+:root{--bg:#0f172a;--panel:#111827;--text:#e5e7eb;--muted:#9ca3af;--accent:#22d3ee}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#020617;color:var(--text);display:flex;min-height:100vh}
+aside{width:260px;background:var(--panel);padding:20px;position:sticky;top:0;height:100vh;overflow:auto}
+main{flex:1;padding:28px;max-width:1000px}h1,h2,h3{color:#f8fafc}a{color:var(--accent);text-decoration:none}
+.nav a{display:block;padding:8px 0;border-bottom:1px solid #1f2937}.card{background:var(--bg);border:1px solid #1f2937;border-radius:10px;padding:16px;margin:14px 0}
+pre{background:#0b1020;border:1px solid #1f2937;padding:14px;border-radius:10px;overflow:auto;position:relative}
+.copy-btn{position:absolute;right:8px;top:8px;border:0;background:#155e75;color:white;padding:6px 10px;border-radius:7px;cursor:pointer}
+footer{margin-top:26px;padding:16px;border-top:1px solid #334155;color:var(--muted)}
+.tip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.tip-box{background:#0b1220;border:1px solid #243041;border-radius:10px;padding:14px}.tip-box h3{margin-top:0}
+@media(max-width:900px){body{flex-direction:column}aside{width:100%;height:auto;position:relative}}
+@media(max-width:900px){.tip-grid{grid-template-columns:1fr}}
+</style>
+</head><body>
+<aside><h2>Guided Tutorial Series</h2><p>ASP.NET Core 8 + React (Vite)</p><p><strong>Backend lesson order:</strong> follow this sequence.</p><nav class="nav"><a href="../Lesson1_Backend_ASPNETCore/CSharp8_Tutorial.html">00 C# Basics</a><a href="../Lesson1_Backend_ASPNETCore/01_Enums_Extensions.html">01 Enum Extensions</a><a href="../Lesson1_Backend_ASPNETCore/00_Backend_Basics.html">02 Backend Basics</a><a href="../Lesson1_Backend_ASPNETCore/04_MVC_In_Depth.html">03 MVC In Depth</a><a href="../Lesson1_Backend_ASPNETCore/05_Areas.html">04 Areas</a><a href="../Lesson1_Backend_ASPNETCore/06_ViewComponents.html">05 View Components</a><a href="../Lesson1_Backend_ASPNETCore/07_Routing_TagHelpers.html">06 Routing and Tag Helpers</a><a href="../Lesson1_Backend_ASPNETCore/08_Web_API.html">07 Web API</a><a href="../Lesson1_Backend_ASPNETCore/07_Swagger.html">08 Swagger</a><a href="../Lesson1_Backend_ASPNETCore/08_RateLimiting.html">09 Rate Limiting</a><a href="../Lesson1_Backend_ASPNETCore/09_CORS.html">10 CORS</a><a href="../Lesson1_Backend_ASPNETCore/06_JWT_Login.html">11 JWT Login</a><a href="../Lesson1_Backend_ASPNETCore/03_DependencyInjection.html">Extra Dependency Injection</a><a href="../Lesson1_Backend_ASPNETCore/05_EFCore.html">Extra EF Core</a><a href="../Lesson1_Backend_ASPNETCore/02_MVC_WebAPI.html">Legacy MVC + Web API</a><a href="../Lesson1_Backend_ASPNETCore/04_ViewComponents_Routes_TagHelpers.html">Legacy Combined UI</a><a href="../Lesson2_Git_Workflow/01_Git_Basics.html">Git 01 Basics</a><a href="../Lesson2_Git_Workflow/02_Branching.html">Git 02 Branching</a><a href="../Lesson2_Git_Workflow/03_PullRequest.html">Git 03 Pull Requests</a><a href="../Lesson2_Git_Workflow/04_Fetch_Pull.html">Git 04 Fetch and Pull</a><a href="../Lesson3_React_Client/01_Node_Vite_Setup.html">React 01 Node and Vite Setup</a><a href="../Lesson3_React_Client/02_React_Basics.html">React 02 Basics</a><a href="../Lesson3_React_Client/03_Calling_WebAPI.html">React 03 Calling the Web API</a><a href="../Lesson3_React_Client/04_JWT_Client_Login.html">React 04 JWT Client Login</a><a href="../Lesson4_Deployment/01_Publishing_Overview.html">Deploy 01 Publishing Overview</a><a href="../Lesson4_Deployment/02_Publish_IIS.html">Deploy 02 Publish to IIS</a><a href="../Lesson4_Deployment/03_Publish_Azure.html">Deploy 03 Publish to Azure</a></nav></aside>
+<main><h1>Routing and Tag Helpers</h1><div class="card">
+<h2>Lesson Objective</h2><p>Learn how custom MVC routes and Tag Helpers work together to generate clean URLs for the Todo List app.</p>
+<section><h3>Step 1: Complete <code>Program.cs</code></h3><pre><code class="language-csharp">var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+app.MapControllerRoute(
+    name: "todos",
+    pattern: "todos/{filter?}",
+    defaults: new { controller = "Todos", action = "Index" });
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();</code></pre></section>
+<section><h3>Step 2: Complete <code>Controllers/TodosController.cs</code></h3><pre><code class="language-csharp">using Microsoft.AspNetCore.Mvc;
+
+namespace TodoList.Web.Controllers;
+
+public class TodosController : Controller
+{
+    public IActionResult Index(string? filter)
+    {
+        ViewBag.Filter = filter ?? "all";
+        return View();
+    }
+
+    public IActionResult Details(int id)
+    {
+        ViewBag.Id = id;
+        return View();
+    }
+}</code></pre></section>
+<section><h3>Step 3: Complete <code>Views/Todos/Index.cshtml</code></h3><pre><code class="language-cshtml">@{
+    ViewData["Title"] = "Todos";
+}
+
+&lt;h1&gt;Todos - @ViewBag.Filter&lt;/h1&gt;
+
+&lt;a asp-controller="Todos"
+   asp-action="Index"
+   asp-route-filter="active"
+   class="btn btn-secondary"&gt;
+    Active Todos
+&lt;/a&gt;
+
+&lt;a asp-controller="Todos"
+   asp-action="Details"
+   asp-route-id="10"
+   class="btn btn-primary"&gt;
+    Todo Details
+&lt;/a&gt;</code></pre></section>
+<section><h3>Step 4: Complete <code>Views/Todos/Details.cshtml</code></h3><pre><code class="language-cshtml">@{
+    ViewData["Title"] = "Details";
+}
+
+&lt;h1&gt;Todo #@ViewBag.Id&lt;/h1&gt;
+&lt;a asp-controller="Todos" asp-action="Index"&gt;Back to Todos&lt;/a&gt;</code></pre></section>
+</div>
+<div class="card"><h2>Nice to Know Before Moving On</h2><div class="tip-grid"><div class="tip-box"><h3>Common mistakes</h3><p>Custom routes can silently stop matching when the pattern, action name, or route values do not line up.</p></div><div class="tip-box"><h3>How C# maps to ASP.NET Core</h3><p>Routing decides which action runs, and Tag Helpers generate links that stay in sync with your route setup.</p></div><div class="tip-box"><h3>Helpful habits and style tips</h3><p>Prefer Tag Helpers over hard-coded URLs so links stay correct when route patterns change later.</p></div></div></div>
+<footer><h3>Checkpoint: Save your progress</h3><pre><code class="language-bash">git add .
+git commit -m "Finished Routing and Tag Helpers"
+git push origin main</code></pre></footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+<script>
+document.querySelectorAll('pre').forEach(pre=>{const b=document.createElement('button');b.textContent='Copy';b.className='copy-btn';b.onclick=()=>{navigator.clipboard.writeText(pre.innerText.replace('Copy','').trim());b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',1000)};pre.appendChild(b);});
+</script>
+</body></html>

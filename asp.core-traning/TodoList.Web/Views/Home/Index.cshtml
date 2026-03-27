@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="p-5 mb-4 bg-light rounded-3 border">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold">Todo List App</h1>
+        <p class="col-md-8 fs-5">
+            Your ASP.NET Core Todo web app is running with MVC pages, an admin area,
+            custom routes, and reusable UI components.
+        </p>
+        <div class="d-flex gap-2 flex-wrap">
+            <a asp-controller="Todos" asp-action="Index" class="btn btn-primary">Open Todos</a>
+            <a asp-area="Admin" asp-controller="TodoDashboard" asp-action="Index" class="btn btn-warning">
+                Open Todo Admin Area
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5">Tutorial Progress</h2>
+                <p class="mb-0">The MVC sample includes forms, validation, filtering, details pages, and an admin dashboard.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5">Active Todos</h2>
+                <p class="display-6 mb-0">@ViewBag.ActiveCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5">Next Step</h2>
+                <p class="mb-0">Continue with the API and React client projects in this same solution.</p>
+            </div>
+        </div>
+    </div>
+</div>
